@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gaadi Kharcha - Demo Information Collection</title>
+  <meta name="description" content="Collect customer feedback and operation details after giving them a Gaadi Kharcha demo.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container" id="formContainer">
+    <!-- Settings Button -->
+    <button class="settings-trigger" id="settingsTrigger" title="Configure Google Sheets URL" aria-label="Configure Google Sheets URL">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      </svg>
+    </button>
+
+    <!-- Header Logo -->
+    <div class="logo-container">
+      <img src="image.png" alt="Gaadi Kharcha Logo" class="logo" id="logoImage">
+    </div>
+
+    <h1 class="form-title" id="formHeader">Post-Demo Info Collection</h1>
+
+    <!-- Missing Google Sheet Web App URL Notice -->
+    <div class="url-warning" id="urlWarning" style="display: none;">
+      <div class="url-warning-text">
+        <strong>Setup Required:</strong> Please configure your Google Sheets Apps Script URL to start saving responses.
+      </div>
+      <button class="btn-setup-now" id="setupNowBtn">Set URL Now</button>
+    </div>
+
+    <!-- Feedback Collection Form -->
+    <form id="demoFeedbackForm" novalidate>
+      <div class="form-group">
+        <label for="companyName">Company Name</label>
+        <input type="text" id="companyName" name="companyName" placeholder="Enter company name" autocomplete="organization">
+      </div>
+
+      <div class="form-group">
+        <label for="contactPerson">Contact Person</label>
+        <input type="text" id="contactPerson" name="contactPerson" placeholder="Enter contact person's name" autocomplete="name">
+      </div>
+
+      <div class="form-group">
+        <label for="contact">Contact Number / Email</label>
+        <input type="text" id="contact" name="contact" placeholder="Phone number or email address" autocomplete="tel">
+      </div>
+
+      <div class="form-group">
+        <label>Operation Type</label>
+        <div class="operation-types">
+          <div class="op-chip">
+            <input type="radio" id="opDaily" name="operationType" value="Daily Service">
+            <label for="opDaily" class="op-label">Daily Service</label>
+          </div>
+          <div class="op-chip">
+            <input type="radio" id="opTour" name="operationType" value="Tour Booking">
+            <label for="opTour" class="op-label">Tour Booking</label>
+          </div>
+          <div class="op-chip">
+            <input type="radio" id="opCompany" name="operationType" value="Company Contract">
+            <label for="opCompany" class="op-label">Company Contract</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group half-width">
+        <div>
+          <label for="vehicleCount">Vehicle Count</label>
+          <input type="number" id="vehicleCount" name="vehicleCount" placeholder="e.g. 10" min="0">
+        </div>
+        <div>
+          <label for="bookingCount">Booking Count</label>
+          <input type="number" id="bookingCount" name="bookingCount" placeholder="e.g. 50" min="0">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">
+        <span>Submit Demo Info</span>
+        <span class="spinner" id="btnSpinner"></span>
+      </button>
+    </form>
+
+    <!-- Success View Overlay -->
+    <div class="success-view" id="successView">
+      <div class="success-icon">✓</div>
+      <h2 class="success-title">Information Saved!</h2>
+      <p class="success-desc">The demo details have been logged to your Google Sheet successfully.</p>
+      <button class="btn-reset" id="resetBtn">Collect Another Response</button>
+    </div>
+
+    <!-- Settings Panel (Slide up) -->
+    <div class="settings-panel" id="settingsPanel">
+      <div class="settings-header">
+        <h3 class="settings-title">Configure Sheet URL</h3>
+        <button class="settings-close" id="settingsCloseBtn" aria-label="Close Settings">&times;</button>
+      </div>
+      <p class="settings-desc">
+        Paste your Google Apps Script Web App URL below to send form data straight to Google Sheets.
+      </p>
+      <div class="form-group">
+        <label for="scriptUrl">Apps Script Web App URL</label>
+        <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/.../exec">
+      </div>
+      <button class="btn-save-settings" id="saveSettingsBtn">Save Configuration</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toastIcon"></span>
+    <span id="toastMessage"></span>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('demoFeedbackForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const btnSpinner = document.getElementById('btnSpinner');
+      const successView = document.getElementById('successView');
+      const resetBtn = document.getElementById('resetBtn');
+      
+      const settingsTrigger = document.getElementById('settingsTrigger');
+      const settingsPanel = document.getElementById('settingsPanel');
+      const settingsCloseBtn = document.getElementById('settingsCloseBtn');
+      const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+      const scriptUrlInput = document.getElementById('scriptUrl');
+      const urlWarning = document.getElementById('urlWarning');
+      const setupNowBtn = document.getElementById('setupNowBtn');
+
+      const toast = document.getElementById('toast');
+      const toastIcon = document.getElementById('toastIcon');
+      const toastMessage = document.getElementById('toastMessage');
+
+      // Load Saved Google Sheet URL
+      let googleSheetUrl = localStorage.getItem('google_sheet_url') || '';
+      scriptUrlInput.value = googleSheetUrl;
+      checkUrlConfiguration();
+
+      function checkUrlConfiguration() {
+        if (!googleSheetUrl) {
+          urlWarning.style.display = 'flex';
+        } else {
+          urlWarning.style.display = 'none';
+        }
+      }
+
+      // Toast Notification Helper
+      function showToast(message, type = 'success') {
+        toastMessage.textContent = message;
+        toast.className = 'toast show ' + type;
+        toastIcon.textContent = type === 'success' ? '✓' : '!';
+        
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3500);
+      }
+
+      // Toggle Settings Panel
+      settingsTrigger.addEventListener('click', () => {
+        settingsPanel.classList.add('active');
+      });
+
+      settingsCloseBtn.addEventListener('click', () => {
+        settingsPanel.classList.remove('active');
+      });
+
+      setupNowBtn.addEventListener('click', () => {
+        settingsPanel.classList.add('active');
+      });
+
+      // Save Settings
+      saveSettingsBtn.addEventListener('click', () => {
+        const urlValue = scriptUrlInput.value.trim();
+        if (urlValue && !urlValue.startsWith('https://script.google.com/')) {
+          showToast('Please enter a valid Google Apps Script URL', 'error');
+          return;
+        }
+
+        googleSheetUrl = urlValue;
+        localStorage.setItem('google_sheet_url', urlValue);
+        checkUrlConfiguration();
+        settingsPanel.classList.remove('active');
+        showToast('Google Sheet configuration saved!');
+      });
+
+      // Reset Form
+      resetBtn.addEventListener('click', () => {
+        form.reset();
+        successView.classList.remove('active');
+        submitBtn.disabled = false;
+      });
+
+      // Submit Form
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Basic Validation check - make sure at least one field is filled out
+        const companyName = document.getElementById('companyName').value.trim();
+        const contactPerson = document.getElementById('contactPerson').value.trim();
+        const contact = document.getElementById('contact').value.trim();
+        const vehicleCount = document.getElementById('vehicleCount').value.trim();
+        const bookingCount = document.getElementById('bookingCount').value.trim();
+        const opSelected = document.querySelector('input[name="operationType"]:checked');
+
+        if (!companyName && !contactPerson && !contact && !vehicleCount && !bookingCount && !opSelected) {
+          showToast('Please fill out at least one field before submitting.', 'error');
+          return;
+        }
+
+        if (!googleSheetUrl) {
+          showToast('Please configure your Google Sheet URL first in Settings (gear icon).', 'error');
+          settingsPanel.classList.add('active');
+          return;
+        }
+
+        // Show spinner and disable button
+        submitBtn.disabled = true;
+        btnSpinner.style.display = 'inline-block';
+
+        const formData = new URLSearchParams(new FormData(form));
+
+        try {
+          // Send request with mode: 'no-cors' to bypass browser CORS preflight check 
+          // (which is standard behavior for simple Google Apps Script deployments)
+          await fetch(googleSheetUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            cache: 'no-cache',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData
+          });
+
+          // Show Success View
+          setTimeout(() => {
+            btnSpinner.style.display = 'none';
+            successView.classList.add('active');
+          }, 600);
+
+        } catch (error) {
+          console.error('Error submitting form:', error);
+          showToast('Failed to connect to Google Sheets. Check connection or URL.', 'error');
+          submitBtn.disabled = false;
+          btnSpinner.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
