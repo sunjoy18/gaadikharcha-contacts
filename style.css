@@ -94,7 +94,8 @@ label {
 input[type="text"],
 input[type="tel"],
 input[type="number"],
-select {
+select,
+textarea {
   width: 100%;
   padding: 11px 14px;
   font-family: inherit;
@@ -107,12 +108,19 @@ select {
   transition: var(--transition);
 }
 
-input::placeholder {
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+input::placeholder,
+textarea::placeholder {
   color: #a0aec0;
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 4px var(--focus-ring);
 }

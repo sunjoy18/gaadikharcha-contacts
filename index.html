@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gaadi Kharcha - Demo Information Collection</title>
-  <meta name="description" content="Collect customer feedback and operation details after giving them a Gaadi Kharcha demo.">
+  <meta name="description"
+    content="Collect customer feedback and operation details after giving them a Gaadi Kharcha demo.">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <div class="container" id="formContainer">
     <!-- Settings Button -->
-    <button class="settings-trigger" id="settingsTrigger" title="Configure Google Sheets URL" aria-label="Configure Google Sheets URL">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <button class="settings-trigger" id="settingsTrigger" title="Configure Google Sheets URL"
+      aria-label="Configure Google Sheets URL">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="3"></circle>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        <path
+          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z">
+        </path>
       </svg>
     </button>
 
@@ -37,12 +44,14 @@
     <form id="demoFeedbackForm" novalidate>
       <div class="form-group">
         <label for="companyName">Company Name</label>
-        <input type="text" id="companyName" name="companyName" placeholder="Enter company name" autocomplete="organization">
+        <input type="text" id="companyName" name="companyName" placeholder="Enter company name"
+          autocomplete="organization">
       </div>
 
       <div class="form-group">
         <label for="contactPerson">Contact Person</label>
-        <input type="text" id="contactPerson" name="contactPerson" placeholder="Enter contact person's name" autocomplete="name">
+        <input type="text" id="contactPerson" name="contactPerson" placeholder="Enter contact person's name"
+          autocomplete="name">
       </div>
 
       <div class="form-group">
@@ -77,6 +86,11 @@
           <label for="bookingCount">Booking Count</label>
           <input type="number" id="bookingCount" name="bookingCount" placeholder="e.g. 50" min="0">
         </div>
+      </div>
+
+      <div class="form-group">
+        <label for="remarks">Remarks</label>
+        <textarea id="remarks" name="remarks" placeholder="Enter any additional remarks or notes"></textarea>
       </div>
 
       <button type="submit" class="btn-submit" id="submitBtn">
@@ -123,7 +137,7 @@
       const btnSpinner = document.getElementById('btnSpinner');
       const successView = document.getElementById('successView');
       const resetBtn = document.getElementById('resetBtn');
-      
+
       const settingsTrigger = document.getElementById('settingsTrigger');
       const settingsPanel = document.getElementById('settingsPanel');
       const settingsCloseBtn = document.getElementById('settingsCloseBtn');
@@ -137,7 +151,7 @@
       const toastMessage = document.getElementById('toastMessage');
 
       // Load Saved Google Sheet URL
-      let googleSheetUrl = localStorage.getItem('google_sheet_url') || 'https://script.google.com/macros/s/AKfycbzEcWYTPjm_VgKK58OpJwUTy3erw6AgNy2rMPB4L49r1tM2zxV2nl_HR-bdPU42sVc/exec';
+      let googleSheetUrl = localStorage.getItem('google_sheet_url') || 'https://script.google.com/macros/s/AKfycbwv5sm5uTw-B-z1WpFvZu08MMoNb8gqIpwFi5CpA-LslLsSVvHsoLOAGxJ0gaQlirNa/exec';
       scriptUrlInput.value = googleSheetUrl;
       checkUrlConfiguration();
 
@@ -154,7 +168,7 @@
         toastMessage.textContent = message;
         toast.className = 'toast show ' + type;
         toastIcon.textContent = type === 'success' ? '✓' : '!';
-        
+
         setTimeout(() => {
           toast.classList.remove('show');
         }, 3500);
@@ -205,9 +219,10 @@
         const contact = document.getElementById('contact').value.trim();
         const vehicleCount = document.getElementById('vehicleCount').value.trim();
         const bookingCount = document.getElementById('bookingCount').value.trim();
+        const remarks = document.getElementById('remarks').value.trim();
         const opSelected = document.querySelector('input[name="operationType"]:checked');
 
-        if (!companyName && !contactPerson && !contact && !vehicleCount && !bookingCount && !opSelected) {
+        if (!companyName && !contactPerson && !contact && !vehicleCount && !bookingCount && !remarks && !opSelected) {
           showToast('Please fill out at least one field before submitting.', 'error');
           return;
         }
@@ -253,4 +268,5 @@
     });
   </script>
 </body>
+
 </html>
